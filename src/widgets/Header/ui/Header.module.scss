@@ -1,0 +1,39 @@
+.header{
+  background-color: $primary;
+  height: 90px;
+  position: relative;
+  z-index: $zHeader;
+}
+
+.container{
+  @include flex(flex, row nowrap, space-between, center);
+}
+
+.logoWrapperLink{
+  @include flex(flex, row, center, center);
+}
+
+.nav{
+  @include flex(flex, row nowrap, start, center);
+  gap: 1.5rem;
+}
+
+.link{
+  color: $light-gray;
+  position: relative;
+}
+
+.linkActive{
+  &::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -12px;
+    display: block;
+    width: 0.375rem;
+    height: 0.375rem;
+    background-color: $light-gray;
+    border-radius: 999px;
+  }
+}

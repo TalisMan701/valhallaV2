@@ -1,0 +1,26 @@
+.card{
+  width: 100%;
+  background-color: $light-gray;
+}
+
+.imgWrapper{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 220px;
+}
+
+.content{
+  padding: 1rem;
+}
+
+.title{
+  margin-bottom: 0.5rem;
+  font-size: 1.375rem;
+}
+
+.tags{
+  @include flex(flex, row wrap, start, start);
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
