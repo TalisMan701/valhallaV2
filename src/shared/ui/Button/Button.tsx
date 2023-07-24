@@ -1,22 +1,69 @@
 'use client';
-import React, {FC} from 'react';
+import React, {FC, HTMLAttributes} from 'react';
 import classes from './Button.module.scss';
+import cx from 'classnames';
+import Link from 'next/link';
 
-interface ButtonProps {
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  disabled?: boolean;
   onClick?: () => void;
-  children: React.ReactNode;
+  onMouseDown?: () => void;
+  onMouseUp?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+  ref?: React.RefObject<HTMLButtonElement>;
+  color?: 'primary' | 'secondary';
+  text?: boolean;
 }
-export const Button: FC<ButtonProps> = ({onClick, children}) => {
+
+interface WithoutIsLink {
+  isLink?: false;
+  href?: string;
+}
+
+interface WithIsLink {
+  isLink: true;
+  href: string;
+}
+
+export type ButtonPropsWithIsLink = ButtonProps & (WithIsLink | WithoutIsLink);
+export const Button: FC<ButtonPropsWithIsLink> = ({
+  children,
+  disabled,
+  style,
+  onClick,
+  onMouseDown,
+  onMouseUp,
+  isLink = false,
+  href,
+  className,
+  ref,
+  color = 'primary',
+  text = false,
+}) => {
+  const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (onClick) onClick();
+  };
   return (
     <button
-      className={classes.btn}
+      ref={ref}
       type='button'
-      onClick={(event) => {
-        event.preventDefault();
-        if (onClick) onClick();
-      }}
+      disabled={disabled}
+      className={cx(
+        classes.button,
+        className,
+        isLink && classes.link,
+        text && classes.text,
+        color === 'primary' ? classes.primary : classes.secondary,
+        disabled && classes.disabled,
+      )}
+      style={style}
+      onClick={handlerClick}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     >
-      {children}
+      {isLink && href ? <Link href={href}>{children}</Link> : <>{children}</>}
     </button>
   );
 };

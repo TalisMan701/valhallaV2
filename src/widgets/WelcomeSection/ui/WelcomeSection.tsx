@@ -13,7 +13,13 @@ export const WelcomeSection = () => {
           </p>
         </div>
         <div className={classes.imageWrapper}>
-          <Image objectFit={'cover'} fill src={'/assets/images/welcome.png'} alt={'welcome_img'} />
+          <Image
+            objectFit={'cover'}
+            priority
+            fill
+            src={'/assets/images/welcome.png'}
+            alt={'welcome_img'}
+          />
         </div>
       </Container>
     </section>

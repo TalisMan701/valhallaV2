@@ -9,6 +9,12 @@
   @include flex(flex, row nowrap, space-between, center);
 }
 
+.row{
+  @include flex(flex, row nowrap, flex-start, center);
+  gap: 2rem;
+  height: 100%;
+}
+
 .logoWrapperLink{
   @include flex(flex, row, center, center);
 }
@@ -16,18 +22,28 @@
 .nav{
   @include flex(flex, row nowrap, start, center);
   gap: 1.5rem;
+  height: 100%;
 }
 
 .link{
   color: $light-gray;
   position: relative;
+  height: 100%;
+  @include flex(flex, row, center, center);
+  padding-top: 6px;
+  border-bottom: 6px solid $primary;
+  transition: all 0.2s ease;
+  &:hover{
+    border-color: $primary-hover-btn;
+  }
 }
 
 .linkActive{
-  &::after{
+  border-color: $primary-hover-btn;
+  /*&::after{
     content: '';
     position: absolute;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
     right: -12px;
     display: block;
@@ -35,5 +51,5 @@
     height: 0.375rem;
     background-color: $light-gray;
     border-radius: 999px;
-  }
+  }*/
 }
