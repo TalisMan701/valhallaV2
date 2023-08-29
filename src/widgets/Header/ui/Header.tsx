@@ -15,7 +15,7 @@ export const Header = () => {
       <Container className={classes.container}>
         <div className={classes.row}>
           <div className={classes.logoWrapperLink}>
-            <Logo width={100} height={40} />
+            <Logo width={100} height={40} fill={'#FFF'} />
           </div>
           <nav className={classes.nav}>
             <Link
