@@ -10,7 +10,7 @@
 }
 
 .content{
-  width: 50%;
+  width: 100%;
   padding: 16px 24px;
   background-color: $light-gray;
 }
@@ -21,11 +21,13 @@
   font-weight: bold;
   font-size: 2rem;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .description{
   color: $primary;
   width: 100%;
+  text-align: center;
 }
 
 .imageWrapper{

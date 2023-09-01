@@ -28,18 +28,18 @@
 .link{
   color: $light-gray;
   position: relative;
-  height: 100%;
   @include flex(flex, row, center, center);
-  padding-top: 6px;
-  border-bottom: 6px solid $primary;
+  background: transparent;
   transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 999px;
   &:hover{
-    border-color: $primary-hover-btn;
+    background: $primary-hover-btn;
   }
 }
 
 .linkActive{
-  border-color: $primary-hover-btn;
+  background: $primary-hover-btn;
   /*&::after{
     content: '';
     position: absolute;

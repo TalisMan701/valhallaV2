@@ -28,10 +28,10 @@ export const Header = () => {
               О команде
             </Link>
             <Link
-              href={'/stats'}
-              className={cx(classes.link, currentRoute === '/stats' && classes.linkActive)}
+              href={'/catalog'}
+              className={cx(classes.link, currentRoute === '/catalog' && classes.linkActive)}
             >
-              Статистика
+              Каталог
             </Link>
             <Link
               href={'/blog'}
