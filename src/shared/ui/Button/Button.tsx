@@ -14,6 +14,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   ref?: React.RefObject<HTMLButtonElement>;
   color?: 'primary' | 'secondary';
   text?: boolean;
+  isIcon?: boolean;
 }
 
 interface WithoutIsLink {
@@ -38,8 +39,9 @@ export const Button: FC<ButtonPropsWithIsLink> = ({
   href,
   className,
   ref,
-  color = 'primary',
+  color = 'secondary',
   text = false,
+  isIcon = false,
 }) => {
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -54,6 +56,7 @@ export const Button: FC<ButtonPropsWithIsLink> = ({
         classes.button,
         className,
         isLink && classes.link,
+        isIcon && classes.isIcon,
         text && classes.text,
         color === 'primary' ? classes.primary : classes.secondary,
         disabled && classes.disabled,

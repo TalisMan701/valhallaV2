@@ -4,6 +4,7 @@ import {BreadcrumbsSection} from '~widgets/BreadcrumbsSection';
 import {IBreadcrumb} from '~shared/types/IBreadcrumb';
 import {GameInfoSection} from '~widgets/GameInfoSection';
 import {Navigate} from '~shared/ui/Navigate/Navigate';
+import {PageWrapper} from '~app/page-wrapper';
 
 interface GameProps {
   params: {id: string};
@@ -28,9 +29,9 @@ export default async function Game({params}: GameProps) {
   ];
 
   return (
-    <>
+    <PageWrapper>
       <BreadcrumbsSection items={breadcrumbsItems} />
       <GameInfoSection gameInfo={gameInfo} />
-    </>
+    </PageWrapper>
   );
 }

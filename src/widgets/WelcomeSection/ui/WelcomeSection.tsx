@@ -1,28 +1,23 @@
 'use client';
 
-import React, {useState} from 'react';
+import React from 'react';
 import classes from './WelcomeSection.module.scss';
-import Image from 'next/image';
 import {Container} from '~shared/ui/Container/Container';
+import {Card, CardBody, CardHeader, Heading, Text} from '@chakra-ui/react';
 export const WelcomeSection = () => {
   return (
     <section className={classes.section}>
       <Container className={classes.container}>
-        <div className={classes.content}>
-          <h1 className={classes.title}>Привет! Мы команда Ready Set Cock</h1>
-          <p className={classes.description}>
-            Мы уже 2 года занимаемся разработкой игр и за это время закончили 4 проекта
-          </p>
-        </div>
-        {/* <div className={classes.imageWrapper}>
-          <Image
-            objectFit={'cover'}
-            priority
-            fill
-            src={'/assets/images/welcome.png'}
-            alt={'welcome_img'}
-          />
-        </div>*/}
+        <Card width={'full'} size={'sm'}>
+          <CardHeader>
+            <Heading textAlign='center'>Мониторинг сервисов игровых транзакций</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text textAlign='center'>
+              Мы уже 2 года занимаемся разработкой игр и за это время закончили 4 проекта
+            </Text>
+          </CardBody>
+        </Card>
       </Container>
     </section>
   );

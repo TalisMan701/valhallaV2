@@ -4,24 +4,40 @@ import classes from './SearchStatsSection.module.scss';
 import {InputText} from '~shared/ui/InputText/InputText';
 import {CardStats} from '~entities/CardStats';
 import {Container} from '~shared/ui/Container/Container';
+import {Select} from 'chakra-react-select';
+import {Card, CardBody, CardHeader, Heading} from '@chakra-ui/react';
 
 export const SearchStatsSection = () => {
-  const [search, setSeacrch] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
+
+  const options = [
+    {value: 'chocolate', label: 'Chocolate'},
+    {value: 'strawberry', label: 'Strawberry'},
+    {value: 'vanilla', label: 'Vanilla'},
+  ];
 
   const handlerChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSeacrch(e.target.value);
+    setSearch(e.target.value);
   };
 
   return (
     <section className={classes.section}>
       <Container className={classes.container}>
-        <InputText
-          value={search}
-          onChange={handlerChangeSearch}
-          placeholder={'Поиск по ID'}
-          withSearchIcon
-          className={classes.searchInput}
-        />
+        <Card width='full' align='center' size={'sm'}>
+          <CardHeader>
+            <Heading>Выберите игру</Heading>
+          </CardHeader>
+          <CardBody width='85%'>
+            <Select
+              className={classes.searchInput}
+              placeholder={'Поиск'}
+              closeMenuOnSelect={false}
+              options={options}
+              isClearable
+            />
+          </CardBody>
+        </Card>
+
         <CardStats />
       </Container>
     </section>

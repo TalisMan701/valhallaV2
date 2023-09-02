@@ -24,7 +24,7 @@ export const CardGame: FC<CardGameProps> = ({game}) => {
           ))}
         </div>
         <Button isLink href={`/games/${game.id}`}>
-          Подробнее <ArrowRight width={12} height={12} />
+          Подробнее
         </Button>
       </div>
     </div>

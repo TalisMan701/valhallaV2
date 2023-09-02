@@ -1,21 +1,28 @@
+'use client';
+
 import React from 'react';
 import classes from './Footer.module.scss';
 import {Container} from '~shared/ui/Container/Container';
 import {Telegram} from '~shared/ui/Icons/Telegram';
 import {VK} from '~shared/ui/Icons/VK';
 import {Youtube} from '~shared/ui/Icons/Youtube';
-import {Market} from '~shared/ui/Icons/Market';
+import {Button} from '~shared/ui/Button/Button';
 export const Footer = () => {
   return (
     <footer className={classes.footer}>
       <Container className={classes.container}>
         <div className={classes.socials}>
-          <Telegram width={32} height={32} />
-          <VK />
-          <Youtube />
-          <Market />
+          <Button isIcon>
+            <Telegram width={32} height={32} />
+          </Button>
+          <Button isIcon>
+            <VK />
+          </Button>
+          <Button isIcon>
+            <Youtube />
+          </Button>
         </div>
-        <span className={classes.mail}>mail@mail.ru</span>
+        <Button text>Помощь</Button>
       </Container>
     </footer>
   );
