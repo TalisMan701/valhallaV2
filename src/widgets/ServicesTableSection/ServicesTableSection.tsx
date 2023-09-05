@@ -4,6 +4,7 @@ import {ServicesTableSectionProps} from './ServicesTableSection.types';
 import cx from 'classnames';
 import {Container} from '~shared/ui/Container/Container';
 import {ServicesTable} from '~features/ServicesTable';
+import {Text} from '@chakra-ui/react';
 
 export const ServicesTableSection: FC<ServicesTableSectionProps> = ({className}) => {
   return (
