@@ -1,1 +1,1 @@
-export {BlogSection} from './ui/BlogSection'
+export {BlogSection} from './BlogSection';

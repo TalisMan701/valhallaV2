@@ -1,6 +1,6 @@
 import {IPost} from '~shared/types/IPost';
 
-export interface PostSectionProps {
+export interface BlogSectionProps {
   className?: string;
-  post: IPost;
+  posts: IPost[];
 }

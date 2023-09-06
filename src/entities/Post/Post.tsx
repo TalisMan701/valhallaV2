@@ -6,13 +6,15 @@ import {ArrowRight} from '~shared/ui/Icons/ArrowRight';
 import {Box, Card, CardBody, CardHeader, Heading, Img, Text} from '@chakra-ui/react';
 import Image from 'next/image';
 import {PostProps} from './Post.types';
+import moment from 'moment';
+import cx from 'classnames';
 
-export const Post: FC<PostProps> = ({className, fullMode = false}) => {
+export const Post: FC<PostProps> = ({className, fullMode = false, post}) => {
   return (
     <Card size={'sm'}>
       <CardHeader>
-        <Heading>Заголовок поста</Heading>
-        <Text>01.01.2023</Text>
+        <Heading>{post.fields.headline}</Heading>
+        <Text>{moment(post.createdTime).format('DD.MM.YY')}</Text>
       </CardHeader>
       <CardBody>
         <Box
@@ -22,25 +24,15 @@ export const Post: FC<PostProps> = ({className, fullMode = false}) => {
           mb={4}
         >
           <Text order={fullMode ? 1 : 0}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderi
+            {fullMode ? post.fields.content : post.fields.preview}
           </Text>
-          <div className={classes.imgWrapper}>
-            <Img
-              objectFit={'cover'}
-              fill
-              src={
-                'https://pibig.info/uploads/posts/2022-06/1655681931_1-pibig-info-p-krasivie-kartinki-s-lesom-krasivo-1.jpg'
-              }
-              alt={'card_img'}
-            />
+          <div className={cx(classes.imgWrapper, fullMode && classes['imgWrapper--fullMode'])}>
+            <Img objectFit={'cover'} fill src={post.fields.image[0].url} alt={'card_img'} />
           </div>
         </Box>
         {!fullMode && (
           <Box display={'flex'} justifyContent={'flex-end'}>
-            <Button isLink href={'/blog/1'}>
+            <Button isLink href={`/blog/${post.id}`}>
               <Text>Читать</Text>
             </Button>
           </Box>

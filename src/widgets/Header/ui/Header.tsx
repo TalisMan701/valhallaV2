@@ -33,24 +33,29 @@ export const Header = () => {
           <nav className={cx(classes.nav, showMenuMobile && classes.isOpen)}>
             <Link
               href={'/'}
-              className={cx(
-                classes.link,
-                (currentRoute === '/' || currentRoute.startsWith('/games')) && classes.linkActive,
-              )}
+              className={cx(classes.link, currentRoute === '/' && classes.linkActive)}
               onClick={() => setShowMenuMobile(false)}
             >
               Главная
             </Link>
             <Link
               href={'/catalog'}
-              className={cx(classes.link, currentRoute === '/catalog' && classes.linkActive)}
+              className={cx(
+                classes.link,
+                (currentRoute === '/catalog' || currentRoute.startsWith('/service')) &&
+                  classes.linkActive,
+              )}
               onClick={() => setShowMenuMobile(false)}
             >
               Каталог
             </Link>
             <Link
               href={'/blog'}
-              className={cx(classes.link, currentRoute === '/blog' && classes.linkActive)}
+              className={cx(
+                classes.link,
+                (currentRoute === '/blog' || currentRoute.startsWith('/blog')) &&
+                  classes.linkActive,
+              )}
               onClick={() => setShowMenuMobile(false)}
             >
               Блог

@@ -5,33 +5,35 @@ import {IBreadcrumb} from '~shared/types/IBreadcrumb';
 import {Navigate} from '~shared/ui/Navigate/Navigate';
 import {PageWrapper} from '~app/page-wrapper';
 import {PostSection} from '~widgets/PostSection';
+import {IPost} from '~shared/types/IPost';
+import {client} from '~shared/api/Client';
 
 interface GameProps {
   params: {id: string};
 }
 
-async function getGameInfo(id: string): Promise<IGameInfo | null> {
-  const response = await fetch(process.env.URL + `/api/games/${id}`, {method: 'GET'});
-  if (response.ok) {
-    return response.json();
+async function _getPostById(id: string): Promise<IPost | null> {
+  try {
+    return await client.blog.getPostById(id);
+  } catch (e) {
+    return null;
   }
-  return null;
 }
 
 export default async function PostPage({params}: GameProps) {
-  const gameInfo = await getGameInfo(params.id);
+  const post = await _getPostById(params.id);
 
-  if (!gameInfo) return <Navigate to={'/'} />;
+  if (!post) return <Navigate to={'/'} />;
 
   const breadcrumbsItems: IBreadcrumb[] = [
     {label: 'Блог', url: '/blog'},
-    {label: gameInfo.title, url: `/service/${params.id}`},
+    {label: post.fields.headline, url: `/blog/${params.id}`},
   ];
 
   return (
     <PageWrapper>
       <BreadcrumbsSection items={breadcrumbsItems} />
-      <PostSection />
+      <PostSection post={post} />
     </PageWrapper>
   );
 }

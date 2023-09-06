@@ -10,7 +10,6 @@ export const Iframe: FC<IframeProps> = ({className, src, imgURL}) => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   const handleIframeLoad = (e) => {
-    console.log(e);
     setIframeLoaded(true);
     checkIframeStatus();
   };
