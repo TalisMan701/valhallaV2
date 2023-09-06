@@ -4,10 +4,10 @@ const withPlugins = require('next-compose-plugins');
 const nextConfiguration = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost'] // Сюда добавить домен, с которого нужно получать картинки на продакшене
+    domains: ['localhost', 'v5.airtableusercontent.com'], // Сюда добавить домен, с которого нужно получать картинки на продакшене
   },
   sassOptions: {
-    prependData: `@use "/src/shared/assets/styles/_global-import" as *;`
+    prependData: `@use "/src/shared/assets/styles/_global-import" as *;`,
   },
   typescript: {
     // !! WARN !!
@@ -16,7 +16,7 @@ const nextConfiguration = {
     // !! WARN !!
     // С этой опцией обязательна проверка типов и ошибок в development режиме!
     // !! WARN !!
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
   eslint: {
     // !! WARN !!
@@ -25,8 +25,8 @@ const nextConfiguration = {
     // !! WARN !!
     // С этой опцией обязательна проверка типов и ошибок в development режиме!
     // !! WARN !!
-    ignoreDuringBuilds: true
-  }
+    ignoreDuringBuilds: true,
+  },
 };
 
-module.exports = nextConfiguration
+module.exports = nextConfiguration;

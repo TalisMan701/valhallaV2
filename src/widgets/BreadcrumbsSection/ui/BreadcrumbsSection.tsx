@@ -10,8 +10,10 @@ interface BreadcrumbsSectionProps {
 
 export const BreadcrumbsSection: FC<BreadcrumbsSectionProps> = ({items}) => {
   return (
-    <Container className={classes.container}>
-      <Breadcrumbs items={items} />
-    </Container>
+    <section className={classes.section}>
+      <Container className={classes.container}>
+        <Breadcrumbs items={items} />
+      </Container>
+    </section>
   );
 };

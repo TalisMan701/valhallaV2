@@ -27,9 +27,9 @@ export const Header = () => {
     <header className={classes.header}>
       <Container className={classes.container}>
         <div className={classes.row}>
-          <div className={classes.logoWrapperLink}>
+          <Link href={'/'} className={classes.logoWrapperLink}>
             <Logo width={100} height={40} fill={'#FFF'} />
-          </div>
+          </Link>
           <nav className={cx(classes.nav, showMenuMobile && classes.isOpen)}>
             <Link
               href={'/'}

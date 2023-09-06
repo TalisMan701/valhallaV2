@@ -7,7 +7,6 @@ export const BlogSection = () => {
   return (
     <section className={classes.section}>
       <Container className={classes.container}>
-        <h1 className={classes.title}>Здесь мы будем писать о ходе разработки</h1>
         <Post />
       </Container>
     </section>

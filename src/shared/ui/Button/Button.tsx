@@ -1,5 +1,5 @@
 'use client';
-import React, {FC, HTMLAttributes} from 'react';
+import React, {FC, HTMLAttributeAnchorTarget, HTMLAttributes} from 'react';
 import classes from './Button.module.scss';
 import cx from 'classnames';
 import Link from 'next/link';
@@ -25,6 +25,7 @@ interface WithoutIsLink {
 interface WithIsLink {
   isLink: true;
   href: string;
+  target?: HTMLAttributeAnchorTarget;
 }
 
 export type ButtonPropsWithIsLink = ButtonProps & (WithIsLink | WithoutIsLink);
@@ -42,6 +43,7 @@ export const Button: FC<ButtonPropsWithIsLink> = ({
   color = 'secondary',
   text = false,
   isIcon = false,
+  target,
 }) => {
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -66,7 +68,13 @@ export const Button: FC<ButtonPropsWithIsLink> = ({
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     >
-      {isLink && href ? <Link href={href}>{children}</Link> : <>{children}</>}
+      {isLink && href ? (
+        <Link href={href} target={target}>
+          {children}
+        </Link>
+      ) : (
+        <>{children}</>
+      )}
     </button>
   );
 };
