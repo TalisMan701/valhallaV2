@@ -1,11 +1,11 @@
 import React from 'react';
-import {Login} from '~widgets/Login';
 import {PageWrapper} from '~app/page-wrapper';
+import {Signup} from '~widgets/Signup';
 
 export default function SignUp() {
   return (
     <PageWrapper>
-      <Login />
+      <Signup />
     </PageWrapper>
   );
 }

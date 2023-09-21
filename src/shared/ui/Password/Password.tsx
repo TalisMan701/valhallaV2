@@ -11,6 +11,7 @@ interface PasswordProps {
   value: string;
   isInvalid?: boolean;
   className?: string;
+  inputId?: string;
 }
 
 export const Password: FC<PasswordProps> = ({
@@ -19,6 +20,7 @@ export const Password: FC<PasswordProps> = ({
   onChange,
   value,
   isInvalid = false,
+  inputId,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -30,13 +32,13 @@ export const Password: FC<PasswordProps> = ({
   return (
     <div className={cx(classes.inputWrapper, className, isInvalid && classes.inputWrapperError)}>
       <input
-        id='inputPassword'
+        id={inputId ?? 'inputPassword'}
         type={showPassword ? 'text' : 'password'}
         className={classes.input}
         value={value}
         onChange={onChange}
       />
-      <label htmlFor='inputPassword' className={classes.inputPlaceholder}>
+      <label htmlFor={inputId ?? 'inputPassword'} className={classes.inputPlaceholder}>
         {placeholder}
       </label>
       <button

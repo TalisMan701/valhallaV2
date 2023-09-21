@@ -12,6 +12,7 @@ interface InputTextProps {
   isInvalid?: boolean;
   className?: string;
   withSearchIcon?: boolean;
+  inputId?: string;
 }
 
 export const InputText: FC<InputTextProps> = ({
@@ -21,17 +22,18 @@ export const InputText: FC<InputTextProps> = ({
   isInvalid = false,
   placeholder,
   withSearchIcon = false,
+  inputId,
 }) => {
   return (
     <div className={cx(classes.inputWrapper, className, isInvalid && classes.inputWrapperError)}>
       <input
-        id='inputText'
+        id={inputId ?? 'inputText'}
         type={'text'}
         className={classes.input}
         value={value}
         onChange={onChange}
       />
-      <label htmlFor='inputText' className={classes.inputPlaceholder}>
+      <label htmlFor={inputId ?? 'inputText'} className={classes.inputPlaceholder}>
         {placeholder}
       </label>
       {withSearchIcon && (

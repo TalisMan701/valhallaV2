@@ -11,7 +11,12 @@ export class Base {
 
   protected async makeRequest<T>(config: AxiosRequestConfig): Promise<T> {
     try {
-      const response: AxiosResponse<T> = await this.apiWithAuth.request(config);
+      const _config = config;
+      if (!_config.headers) {
+        _config.headers = {};
+      }
+      _config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+      const response: AxiosResponse<T> = await this.apiWithAuth.request(_config);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response.data.error);
