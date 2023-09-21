@@ -11,11 +11,19 @@ export class Base {
 
   protected async makeRequest<T>(config: AxiosRequestConfig): Promise<T> {
     try {
-      const _config = config;
-      if (!_config.headers) {
-        _config.headers = {};
+      const _config = {...config};
+      if (typeof localStorage === 'object') {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+          if (!_config.headers) {
+            _config.headers = {};
+          }
+
+          _config.headers.Authorization = `Bearer ${token}`;
+        }
       }
-      _config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+      console.log(typeof localStorage);
+
       const response: AxiosResponse<T> = await this.apiWithAuth.request(_config);
       return response.data;
     } catch (error: any) {

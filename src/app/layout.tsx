@@ -84,6 +84,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           setIsLoading(false);
         })
         .catch((error) => {
+          localStorage.removeItem('accessToken');
           setIsLoading(false);
         });
     }
