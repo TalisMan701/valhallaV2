@@ -21,6 +21,24 @@ export class User extends Base {
     return this.makeRequest<IStrapiResponseWrapper<IUserLogin>>(config);
   }
 
+  async signup(
+    email: string,
+    username: string,
+    password: string,
+  ): Promise<IStrapiResponseWrapper<IUserLogin>> {
+    const config: AxiosRequestConfig = {
+      method: 'POST',
+      url: '/auth/local/register',
+      data: {
+        email,
+        username,
+        password,
+      },
+    };
+
+    return this.makeRequest<IStrapiResponseWrapper<IUserLogin>>(config);
+  }
+
   async authVKCallback(query: string): Promise<IUserLogin> {
     const config: AxiosRequestConfig = {
       method: 'GET',
