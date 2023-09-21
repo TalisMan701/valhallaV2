@@ -24,7 +24,7 @@ jobs:
         port: 22
         script: |
           cd ~/front
-          git pull origin master
+          git pull origin main
           git status
           rm -rf node_modeles
           rm package-lock.json
