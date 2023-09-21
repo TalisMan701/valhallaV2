@@ -2,13 +2,18 @@
 import '~shared/assets/styles/globals.scss';
 
 import {MODAL_PORTAL_ID} from '~shared/config/constants';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Header} from '~widgets/Header';
 import {Footer} from '~widgets/Footer';
 import {Providers} from './providers';
 import localFont from 'next/font/local';
 import {extendTheme} from '@chakra-ui/react';
 import {usePathname} from 'next/navigation';
+import {useStore} from 'effector-react';
+import {setUser, storeUser} from '~shared/store/User';
+import {client} from '~shared/api/Client';
+import {PageWrapper} from '~app/page-wrapper';
+import {Preloader} from '~shared/ui/Preloader';
 
 const GTEestiProDisplay = localFont({
   src: [
@@ -67,14 +72,39 @@ const GTEestiProDisplay = localFont({
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const store = useStore(storeUser);
+  useEffect(() => {
+    if (!store.isAuth) {
+      setIsLoading(true);
+      client.user
+        .me()
+        .then((response) => {
+          setUser(response);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
+  }, []);
+
   return (
     <html lang='en'>
       <body className={GTEestiProDisplay.className}>
         <Providers font={GTEestiProDisplay}>
           <div className='global-container'>
-            {pathname !== '/connect/vk/redirect' && <Header />}
-            {children}
-            {pathname !== '/connect/vk/redirect' && <Footer />}
+            {isLoading ? (
+              <PageWrapper>
+                <Preloader />
+              </PageWrapper>
+            ) : (
+              <>
+                {pathname !== '/connect/vk/redirect' && <Header />}
+                {children}
+                {pathname !== '/connect/vk/redirect' && <Footer />}
+              </>
+            )}
           </div>
           <div id={MODAL_PORTAL_ID} />
         </Providers>

@@ -20,7 +20,7 @@ export default function VkRedirect() {
       .authVKCallback(query)
       .then((response) => {
         localStorage.setItem('accessToken', response.jwt);
-        setUser(response);
+        setUser(response.user);
         toast({
           title: 'Авторизация через VK',
           description: 'Прошла успешно!',

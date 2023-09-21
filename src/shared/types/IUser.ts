@@ -16,7 +16,17 @@ interface IAttributes {
 
 export interface IUserLogin {
   jwt: string;
-  user: {
-    id: number;
-  } & IAttributes;
+  user: IUserSimple;
+}
+
+export interface IUserSimple {
+  id: number;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  icon?: string;
 }

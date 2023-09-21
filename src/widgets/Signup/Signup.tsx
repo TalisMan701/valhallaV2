@@ -9,6 +9,11 @@ import {Box, Icon, Text} from '@chakra-ui/react';
 import {SiVk} from 'react-icons/si';
 import Link from 'next/link';
 import {isEmailValid} from '~shared/utils/isEmailValid';
+import {useStore} from 'effector-react';
+import {setUser, storeUser} from '~shared/store/User';
+import {useRouter} from 'next/navigation';
+import {useToast} from '@chakra-ui/toast';
+import {client} from '~shared/api/Client';
 
 export const Signup: FC<SignupProps> = ({className}) => {
   const [email, setEmail] = useState<string>('');
@@ -21,6 +26,10 @@ export const Signup: FC<SignupProps> = ({className}) => {
   const [invalidPassword, setInvalidPassword] = useState<boolean>(false);
   const [invalidConfirmedPassword, setInvalidConfirmedPassword] = useState<boolean>(false);
   const [invalidEqualPasswords, setInvalidEqualPasswords] = useState<boolean>(false);
+
+  const router = useRouter();
+  const toast = useToast();
+  const store = useStore(storeUser);
   const resetState = () => {
     setEmail('');
     setLogin('');
@@ -80,11 +89,30 @@ export const Signup: FC<SignupProps> = ({className}) => {
       setInvalidEqualPasswords(true);
       return;
     }
-    if (password !== 'HELLO') {
-      setError('Неверный пароль, ты точно у нас работаешь?');
-    } else {
-      console.log('GOOD');
-    }
+    client.user
+      .signup(email, login, password)
+      .then((response) => {
+        localStorage.setItem('accessToken', response.jwt);
+        setUser(response.user);
+        toast({
+          title: 'Регистрация',
+          description: 'Прошла успешно!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        router.push('/');
+      })
+      .catch((error) => {
+        toast({
+          title: 'Регистрация',
+          description: 'Не прошла. Попробуйте позже',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        setError('Ошибка сервера, попробуйте позже!');
+      });
   };
 
   const disabledBtn =

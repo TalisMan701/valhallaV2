@@ -1,8 +1,8 @@
-import {IUserLogin} from '~shared/types/IUser';
+import {IUserLogin, IUserSimple} from '~shared/types/IUser';
 import {createEvent, createStore} from 'effector';
 
 type Store = {
-  user: IUserLogin | null;
+  user: IUserSimple | null;
   isAuth: boolean;
 };
 
@@ -11,10 +11,17 @@ const initialState: Store = {
   isAuth: false,
 };
 
-export const setUser = createEvent<IUserLogin | null>();
+export const setUser = createEvent<IUserSimple | null>();
+export const setUserSimple = createEvent<IUserSimple>();
 
-export const storeUser = createStore<Store>(initialState).on(setUser, (state, user) => ({
-  ...state,
-  user,
-  isAuth: true,
-}));
+export const storeUser = createStore<Store>(initialState)
+  .on(setUser, (state, user) => ({
+    ...state,
+    user,
+    isAuth: true,
+  }))
+  .on(setUserSimple, (state, user) => ({
+    ...state,
+    user,
+    isAuth: true,
+  }));

@@ -8,13 +8,13 @@ import {Container} from '~shared/ui/Container/Container';
 export default function Cabinet() {
   const {isAuth, user} = useStore(storeUser);
   const router = useRouter();
-  if (!isAuth || !user?.user) {
+  if (!isAuth || !user) {
     router.push('/');
   } else {
     return (
       <PageWrapper>
         <Container>
-          <div>{user.user.email}</div>
+          <div>{user.email}</div>
         </Container>
       </PageWrapper>
     );

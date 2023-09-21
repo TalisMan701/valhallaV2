@@ -10,6 +10,10 @@ import {signIn} from 'next-auth/react';
 import {Box, Icon, Text} from '@chakra-ui/react';
 import {SiVk} from 'react-icons/si';
 import Link from 'next/link';
+import {useToast} from '@chakra-ui/toast';
+import {useStore} from 'effector-react';
+import {setUser, storeUser} from '~shared/store/User';
+import {client} from '~shared/api/Client';
 
 export const Login = () => {
   const [login, setLogin] = useState<string>('');
@@ -18,6 +22,8 @@ export const Login = () => {
   const [error, setError] = useState<string>('');
 
   const router = useRouter();
+  const toast = useToast();
+  const store = useStore(storeUser);
 
   const handlerSubmit = async () => {
     const response = await signIn('credentials', {login, password, redirect: false});
@@ -38,11 +44,31 @@ export const Login = () => {
   };
 
   const onClick = () => {
-    if (password !== 'HELLO') {
-      setError('Неверный пароль, ты точно у нас работаешь?');
-    } else {
-      console.log('GOOD');
-    }
+    client.user
+      .login(login, password)
+      .then((response) => {
+        localStorage.setItem('accessToken', response.jwt);
+        setUser(response.user);
+        toast({
+          title: 'Авторизация',
+          description: 'Прошла успешно!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        router.push('/');
+      })
+      .catch((error) => {
+        toast({
+          title: 'Авторизация',
+          description: 'Не прошла. Попробуйте позже',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+        setError('Неверный логин или пароль');
+      });
   };
 
   return (

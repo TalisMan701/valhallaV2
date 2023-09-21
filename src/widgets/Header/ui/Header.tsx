@@ -69,7 +69,7 @@ export const Header = () => {
           </nav>
         </div>
 
-        {!store.isAuth || !store.user?.user ? (
+        {!store.isAuth || !store.user ? (
           <>
             {!isDesktop ? (
               <div className={classes.burgerWrapper}>
@@ -91,11 +91,7 @@ export const Header = () => {
             {!isDesktop ? (
               <div className={classes.burgerWrapper}>
                 <Button isIcon isLink href={'/cabinet'}>
-                  <Avatar
-                    size='md'
-                    name={store.user.user.username}
-                    src={store.user?.user.icon ?? ''}
-                  />
+                  <Avatar size='md' name={store.user.username} src={store.user?.icon ?? ''} />
                 </Button>
                 <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>
                   {showMenuMobile ? <CloseIcon boxSize={5} /> : <HamburgerIcon boxSize={8} />}
@@ -103,11 +99,7 @@ export const Header = () => {
               </div>
             ) : (
               <Button isIcon isLink href={'/cabinet'}>
-                <Avatar
-                  size='md'
-                  name={store.user.user.username}
-                  src={store.user?.user.icon ?? ''}
-                />
+                <Avatar size='md' name={store.user.username} src={store.user.icon ?? ''} />
               </Button>
             )}
           </>

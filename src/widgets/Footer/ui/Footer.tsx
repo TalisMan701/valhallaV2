@@ -46,8 +46,8 @@ export const Footer = () => {
     if (!isOpen) {
       resetState();
     }
-    if (store.user?.user?.email) {
-      setEmail(store.user.user.email);
+    if (store.user?.email) {
+      setEmail(store.user.email);
     }
   }, [isOpen]);
 
