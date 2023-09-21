@@ -9,6 +9,7 @@ import Axios from 'axios';
 import {Button} from '~shared/ui/Button/Button';
 import {PromotedServicesSectionProps} from './PromotedServicesSection.types';
 import cx from 'classnames';
+import {client} from '~shared/api/Client';
 
 export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
   className,
@@ -17,6 +18,10 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
   const [images, setImages] = React.useState([]);
   const [image, setImage] = useState<any>();
   const maxNumber = 69;
+
+  useEffect(() => {
+    client.games.getGames().then((response) => console.log(response));
+  }, []);
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit

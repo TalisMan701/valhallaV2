@@ -15,25 +15,29 @@ export const ServiceSection: FC<ServiceSectionProps> = ({className, service}) =>
       <Container>
         <Card size={'sm'}>
           <CardHeader>
-            <Heading textAlign={'center'}>{service.fields.name}</Heading>
+            <Heading textAlign={'center'}>{service.attributes.name}</Heading>
           </CardHeader>
           <CardBody>
-            <Iframe src={service.fields.serviceLink} imgURL={service.fields.previewImg[0].url} />
+            <Iframe src={service.attributes.link ?? ''} imgURL={service.attributes.img ?? ''} />
             <Text textAlign={'center'} mt={6} mb={4}>
-              {service.fields.description}
+              {service.attributes.description}
             </Text>
-            {service.fields.promocode && (
+            {service.attributes['promo_code']?.data && (
               <Box display='flex' flexDirection='column' alignItems='center' mb={4}>
                 <Text fontWeight={700} mb={2}>
                   Наш промокод
                 </Text>
-                <Input mb={2} value={service.fields.promocode} className={classes.input} />
+                <Input
+                  mb={2}
+                  value={service.attributes['promo_code'].data.attributes.code}
+                  className={classes.input}
+                />
                 <Text textAlign={'center'} className={classes.promo_desc}>
-                  Здесь будет какое-то описание того, что делает промокод
+                  {service.attributes['promo_code'].data.attributes.description}
                 </Text>
               </Box>
             )}
-            <Button isLink href={service.fields.serviceLink} className={classes.btn}>
+            <Button isLink href={service.attributes.link ?? ''} className={classes.btn}>
               <Text>Перейти на link to service</Text>
             </Button>
           </CardBody>

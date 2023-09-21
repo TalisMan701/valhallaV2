@@ -14,7 +14,8 @@ interface GameProps {
 
 async function _getPostById(id: string): Promise<IPost | null> {
   try {
-    return await client.blog.getPostById(id);
+    const response = await client.blog.getPostById(id);
+    return response.data;
   } catch (e) {
     return null;
   }
@@ -27,7 +28,7 @@ export default async function PostPage({params}: GameProps) {
 
   const breadcrumbsItems: IBreadcrumb[] = [
     {label: 'Блог', url: '/blog'},
-    {label: post.fields.headline, url: `/blog/${params.id}`},
+    {label: post.attributes.title, url: `/blog/${params.id}`},
   ];
 
   return (

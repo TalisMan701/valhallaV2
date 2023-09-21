@@ -21,7 +21,4 @@ class Client {
   }
 }
 
-export const client = new Client(
-  backendURL,
-  'patPzBfflFJreae7M.3b106ef0f37ffab865a09493ffcd2f61f787dac61c63022080f733b0da6fffe3',
-);
+export const client = new Client(backendURL);

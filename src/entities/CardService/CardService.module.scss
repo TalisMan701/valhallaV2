@@ -3,7 +3,12 @@
   border-radius: var(--chakra-radii-md);
   box-shadow: var(--chakra-shadows-base);
   overflow: hidden;
-  background-color: var(--chakra-colors-chakra-body-bg);;
+  background-color: var(--chakra-colors-chakra-body-bg);
+  @include flex(flex, column, space-between, start);
+}
+
+.contentWrapper{
+  width: 100%;
 }
 
 .imgWrapper{
@@ -14,6 +19,7 @@
 }
 
 .content{
+  width: 100%;
   padding: 1rem;
 }
 
@@ -27,4 +33,9 @@
   @include flex(flex, row wrap, start, start);
   gap: 0.5rem;
   margin-bottom: 2rem;
+}
+
+.btnWrapper{
+  width: 100%;
+  padding: 0 1rem 1rem;
 }

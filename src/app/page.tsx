@@ -9,7 +9,7 @@ async function _getPromotedServices(): Promise<IService[]> {
   try {
     const response = await client.services.getPromotedServices();
 
-    return response.records;
+    return response.data;
   } catch (e) {
     return [];
   }

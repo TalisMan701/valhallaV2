@@ -13,8 +13,8 @@ export const Post: FC<PostProps> = ({className, fullMode = false, post}) => {
   return (
     <Card size={'sm'}>
       <CardHeader>
-        <Heading>{post.fields.headline}</Heading>
-        <Text>{moment(post.createdTime).format('DD.MM.YY')}</Text>
+        <Heading>{post.attributes.title}</Heading>
+        <Text>{moment(post.attributes.createdAt).format('DD.MM.YY')}</Text>
       </CardHeader>
       <CardBody>
         <Box
@@ -24,11 +24,13 @@ export const Post: FC<PostProps> = ({className, fullMode = false, post}) => {
           mb={4}
         >
           <Text order={fullMode ? 1 : 0}>
-            {fullMode ? post.fields.content : post.fields.preview}
+            {fullMode ? post.attributes.description : post.attributes.shortDescription}
           </Text>
-          <div className={cx(classes.imgWrapper, fullMode && classes['imgWrapper--fullMode'])}>
-            <Img objectFit={'cover'} fill src={post.fields.image[0].url} alt={'card_img'} />
-          </div>
+          {post.attributes.img && (
+            <div className={cx(classes.imgWrapper, fullMode && classes['imgWrapper--fullMode'])}>
+              <Img objectFit={'cover'} src={post.attributes.img} alt={'card_img'} />
+            </div>
+          )}
         </Box>
         {!fullMode && (
           <Box display={'flex'} justifyContent={'flex-end'}>

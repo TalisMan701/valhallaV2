@@ -9,12 +9,18 @@ import cx from 'classnames';
 import {Button} from '~shared/ui/Button/Button';
 import {useWindowWidth} from '~shared/hooks/useWindowWidth';
 import {CloseIcon, HamburgerIcon} from '@chakra-ui/icons';
+import {signIn} from 'next-auth/react';
+import {authConfig} from '~shared/config/auth';
+import VkProvider from 'next-auth/providers/vk';
+import {useStore} from 'effector-react';
+import {storeUser} from '~shared/store/User';
+import {Avatar} from '@chakra-ui/react';
 
 export const Header = () => {
   const currentRoute = usePathname();
   const [showMenuMobile, setShowMenuMobile] = useState<boolean>(false);
   const {isTablet, isDesktop, isPhone} = useWindowWidth();
-
+  const store = useStore(storeUser);
   const changeShowMenuMobile = () => {
     if (!isDesktop) {
       setShowMenuMobile((prev) => !prev);
@@ -63,19 +69,48 @@ export const Header = () => {
           </nav>
         </div>
 
-        {!isDesktop ? (
-          <div className={classes.burgerWrapper}>
-            <Button isLink href={'/auth'}>
-              Войти
-            </Button>
-            <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>
-              {showMenuMobile ? <CloseIcon boxSize={5} /> : <HamburgerIcon boxSize={8} />}
-            </Button>
-          </div>
+        {!store.isAuth || !store.user?.user ? (
+          <>
+            {!isDesktop ? (
+              <div className={classes.burgerWrapper}>
+                <Button isLink href={'/signin'}>
+                  Войти
+                </Button>
+                <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>
+                  {showMenuMobile ? <CloseIcon boxSize={5} /> : <HamburgerIcon boxSize={8} />}
+                </Button>
+              </div>
+            ) : (
+              <Button isLink href={'/signin'}>
+                Войти
+              </Button>
+            )}
+          </>
         ) : (
-          <Button isLink href={'/auth'}>
-            Войти
-          </Button>
+          <>
+            {!isDesktop ? (
+              <div className={classes.burgerWrapper}>
+                <Button isIcon isLink href={'/cabinet'}>
+                  <Avatar
+                    size='md'
+                    name={store.user.user.username}
+                    src={store.user?.user.icon ?? ''}
+                  />
+                </Button>
+                <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>
+                  {showMenuMobile ? <CloseIcon boxSize={5} /> : <HamburgerIcon boxSize={8} />}
+                </Button>
+              </div>
+            ) : (
+              <Button isIcon isLink href={'/cabinet'}>
+                <Avatar
+                  size='md'
+                  name={store.user.user.username}
+                  src={store.user?.user.icon ?? ''}
+                />
+              </Button>
+            )}
+          </>
         )}
       </Container>
     </header>

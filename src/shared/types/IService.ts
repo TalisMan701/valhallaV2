@@ -1,32 +1,24 @@
+import {ITag} from '~shared/types/ITag';
+import {IReview} from '~shared/types/IReview';
+import {IPromoCode} from '~shared/types/IPromoCode';
+
 export interface IService {
-  id: string;
-  createdTime: string;
-  fields: Fields;
+  id: number;
+  attributes: IAttributes;
 }
 
-interface Fields {
+interface IAttributes {
   name: string;
-  prices: string[];
-  reviews: string[];
-  averageTradeValue: number;
-  monthlyUses: string;
   description: string;
-  numOfReviews: number;
-  tags: string[];
-  totalTransactions: number;
-  promoted: boolean;
-  promocode: string;
-  serviceLink: string;
-  previewImg: PreviewImg[];
-  gamesPrices: string[];
-}
-
-interface PreviewImg {
-  id: string;
-  width: number;
-  height: number;
-  url: string;
-  filename: string;
-  size: number;
-  type: string;
+  totalCountTransaction: string;
+  volume: string;
+  isPromoted: boolean;
+  link: string | null;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  img: string | null;
+  tags?: {data: ITag[]};
+  reviews?: {data: IReview[]};
+  promo_code?: {data: IPromoCode | null};
 }

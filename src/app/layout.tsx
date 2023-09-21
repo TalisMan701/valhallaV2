@@ -1,3 +1,4 @@
+'use client';
 import '~shared/assets/styles/globals.scss';
 
 import {MODAL_PORTAL_ID} from '~shared/config/constants';
@@ -7,6 +8,7 @@ import {Footer} from '~widgets/Footer';
 import {Providers} from './providers';
 import localFont from 'next/font/local';
 import {extendTheme} from '@chakra-ui/react';
+import {usePathname} from 'next/navigation';
 
 const GTEestiProDisplay = localFont({
   src: [
@@ -64,14 +66,15 @@ const GTEestiProDisplay = localFont({
 });
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
+  const pathname = usePathname();
   return (
     <html lang='en'>
       <body className={GTEestiProDisplay.className}>
         <Providers font={GTEestiProDisplay}>
           <div className='global-container'>
-            <Header />
+            {pathname !== '/connect/vk/redirect' && <Header />}
             {children}
-            <Footer />
+            {pathname !== '/connect/vk/redirect' && <Footer />}
           </div>
           <div id={MODAL_PORTAL_ID} />
         </Providers>

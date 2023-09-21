@@ -10,6 +10,8 @@ import {
   SortingState,
   getSortedRowModel,
 } from '@tanstack/react-table';
+import {useWindowWidth} from '~shared/hooks/useWindowWidth';
+import cx from 'classnames';
 
 export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -23,8 +25,11 @@ export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}
       sorting,
     },
   });
+
+  const {isPhone} = useWindowWidth();
+
   return (
-    <Table>
+    <Table size={isPhone ? 'sm' : 'md'}>
       <Thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Tr key={headerGroup.id}>
@@ -36,10 +41,11 @@ export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                   isNumeric={meta?.isNumeric}
+                  className={classes.th}
                 >
                   {flexRender(header.column.columnDef.header, header.getContext())}
 
-                  <chakra.span>
+                  <chakra.span className={classes.sortedIcon}>
                     {header.column.getIsSorted() ? (
                       header.column.getIsSorted() === 'desc' ? (
                         <TriangleDownIcon aria-label='sorted descending' />
@@ -56,7 +62,11 @@ export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}
       </Thead>
       <Tbody>
         {table.getRowModel().rows.map((row) => (
-          <Tr key={row.id}>
+          <Tr
+            key={row.id}
+            onClick={() => console.log(row.original)}
+            className={cx(classes.row, false && classes['row--isActive'])}
+          >
             {row.getVisibleCells().map((cell) => {
               // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
               const meta: any = cell.column.columnDef.meta;

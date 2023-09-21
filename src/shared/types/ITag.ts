@@ -1,4 +1,11 @@
 export interface ITag {
-  id: string;
-  label: string;
+  id: number;
+  attributes: IAttributes;
+}
+
+interface IAttributes {
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }

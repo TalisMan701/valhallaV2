@@ -63,7 +63,7 @@ export const ServicesTable: FC<ServicesTableProps> = ({className}) => {
         <CardHeader>
           <Heading>Статистика цен</Heading>
         </CardHeader>
-        <CardBody>
+        <CardBody className={classes.cardBody}>
           <DataTable columns={columns} data={data} />
         </CardBody>
       </Card>

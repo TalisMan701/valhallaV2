@@ -1,5 +1,4 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import {IResponseWrapper} from '~shared/types/IResponseWrapper';
 
 export class Base {
   protected apiWithAuth: AxiosInstance;
@@ -7,9 +6,6 @@ export class Base {
   constructor(baseUrl: string, apiKey?: string) {
     this.apiWithAuth = axios.create({
       baseURL: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + apiKey,
-      },
     });
   }
 

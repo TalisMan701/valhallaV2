@@ -4,7 +4,7 @@ const withPlugins = require('next-compose-plugins');
 const nextConfiguration = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost', 'v5.airtableusercontent.com'], // Сюда добавить домен, с которого нужно получать картинки на продакшене
+    domains: ['localhost', 'res.cloudinary.com'], // Сюда добавить домен, с которого нужно получать картинки на продакшене
   },
   sassOptions: {
     prependData: `@use "/src/shared/assets/styles/_global-import" as *;`,

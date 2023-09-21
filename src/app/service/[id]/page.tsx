@@ -15,18 +15,10 @@ interface GameProps {
 
 async function _getServiceById(id: string): Promise<IService | null> {
   try {
-    return await client.services.getServiceById(id);
+    const response = await client.services.getServiceById(id);
+    return response.data;
   } catch (e) {
     return null;
-  }
-}
-
-async function _getReviewsByServiceName(id: string): Promise<IReview[] | []> {
-  try {
-    const response = await client.reviews.getReviewsByServiceName(id);
-    return response.records;
-  } catch (e) {
-    return [];
   }
 }
 
@@ -34,11 +26,11 @@ export default async function Service({params}: GameProps) {
   const service = await _getServiceById(params.id);
   if (!service) return <Navigate to={'/'} />;
 
-  const reviews = await _getReviewsByServiceName(service.fields.name);
+  const reviews = service.attributes.reviews?.data ?? [];
 
   const breadcrumbsItems: IBreadcrumb[] = [
     {label: 'Главная', url: '/'},
-    {label: service.fields.name, url: `/service/${params.id}`},
+    {label: service.attributes.name, url: `/service/${params.id}`},
   ];
 
   return (

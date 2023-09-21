@@ -7,7 +7,7 @@ import {IPost} from '~shared/types/IPost';
 async function _getPosts(): Promise<IPost[] | []> {
   try {
     const response = await client.blog.getPosts();
-    return response.records;
+    return response.data;
   } catch (e) {
     return [];
   }

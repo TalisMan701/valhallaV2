@@ -1,8 +1,13 @@
-import {ITag} from '~shared/types/ITag';
-
 export interface IGame {
-  id: string;
-  title: string;
-  image: string;
-  tags: ITag[];
+  id: number;
+  attributes: IAttributes;
+}
+
+interface IAttributes {
+  name: string;
+  description: string;
+  currency: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }

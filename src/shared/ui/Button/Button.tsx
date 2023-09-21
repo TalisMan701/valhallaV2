@@ -20,6 +20,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
 interface WithoutIsLink {
   isLink?: false;
   href?: string;
+  target?: string;
 }
 
 interface WithIsLink {
