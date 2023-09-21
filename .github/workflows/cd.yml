@@ -4,7 +4,7 @@ name: CD
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -24,7 +24,7 @@ jobs:
         port: 22
         script: |
           cd ~/front
-          git pull origin master
+          git pull origin main
           git status
           rm -rf node_modeles
           rm package-lock.json
