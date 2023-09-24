@@ -5,12 +5,14 @@ import {ReviewsSectionProps} from './ReviewsSection.types';
 import cx from 'classnames';
 import {Container} from '~shared/ui/Container/Container';
 import {
+  Box,
   Card,
   CardBody,
   CardHeader,
   FormControl,
   FormLabel,
   Heading,
+  Icon,
   Spinner,
   Text,
   Textarea,
@@ -22,6 +24,7 @@ import {storeUser} from '~shared/store/User';
 import {IReview} from '~shared/types/IReview';
 import {client} from '~shared/api/Client';
 import {useToast} from '@chakra-ui/toast';
+import {BsStarFill, BsStar} from 'react-icons/bs';
 
 export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, placeId}) => {
   const [text, setText] = useState<string>('');
@@ -30,7 +33,15 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
   const [reviewsLocal, setReviewsLocal] = useState<IReview[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [grade, setGrade] = useState<number>(0);
+  const [gradeHover, setGradeHover] = useState<number>(0);
+
   const toast = useToast();
+
+  const resetState = () => {
+    setText('');
+    setGrade(0);
+  };
 
   useEffect(() => {
     setReviewsLocal(reviews);
@@ -49,7 +60,7 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
     if (user) {
       setIsLoading(true);
       client.reviews
-        .sendReview(text, 0, user.id, placeId)
+        .sendReview(text, grade, user.id, placeId)
         .then((response) => {
           setReviewsLocal((prev) => [
             ...prev,
@@ -68,7 +79,7 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
             duration: 5000,
             isClosable: true,
           });
-          setText('');
+          resetState();
         })
         .catch((error) => {
           toast({
@@ -82,6 +93,14 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
         .finally(() => {
           setIsLoading(false);
         });
+    }
+  };
+
+  const isFillStar = (gradeValue: number): boolean => {
+    if (gradeHover !== grade) {
+      return gradeHover > gradeValue;
+    } else {
+      return grade > gradeValue;
     }
   };
 
@@ -118,7 +137,51 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
             {isAuth && (
               <>
                 <FormControl mb={2}>
-                  <FormLabel>Оставьте отзыв</FormLabel>
+                  <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                    <FormLabel>Оставьте отзыв</FormLabel>
+                    <Box display={'flex'} gap={1}>
+                      <Icon
+                        onMouseEnter={() => setGradeHover(1)}
+                        onMouseLeave={() => setGradeHover(grade)}
+                        onClick={() => setGrade(1)}
+                        cursor={'pointer'}
+                        fontSize={'sm'}
+                        as={isFillStar(0) ? BsStarFill : BsStar}
+                      ></Icon>
+                      <Icon
+                        onMouseEnter={() => setGradeHover(2)}
+                        onMouseLeave={() => setGradeHover(grade)}
+                        onClick={() => setGrade(2)}
+                        cursor={'pointer'}
+                        fontSize={'sm'}
+                        as={isFillStar(1) ? BsStarFill : BsStar}
+                      ></Icon>
+                      <Icon
+                        onMouseEnter={() => setGradeHover(3)}
+                        onMouseLeave={() => setGradeHover(grade)}
+                        onClick={() => setGrade(3)}
+                        cursor={'pointer'}
+                        fontSize={'sm'}
+                        as={isFillStar(2) ? BsStarFill : BsStar}
+                      ></Icon>
+                      <Icon
+                        onMouseEnter={() => setGradeHover(4)}
+                        onMouseLeave={() => setGradeHover(grade)}
+                        onClick={() => setGrade(4)}
+                        cursor={'pointer'}
+                        fontSize={'sm'}
+                        as={isFillStar(3) ? BsStarFill : BsStar}
+                      ></Icon>
+                      <Icon
+                        onMouseEnter={() => setGradeHover(5)}
+                        onMouseLeave={() => setGradeHover(grade)}
+                        onClick={() => setGrade(5)}
+                        cursor={'pointer'}
+                        fontSize={'sm'}
+                        as={isFillStar(4) ? BsStarFill : BsStar}
+                      ></Icon>
+                    </Box>
+                  </Box>
                   <Textarea placeholder='Письмо' onChange={handlerChangeText} value={text} />
                 </FormControl>
                 <div className={classes.btnWrapper}>
