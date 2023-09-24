@@ -52,4 +52,20 @@ export class User extends Base {
 
     return this.makeRequest<IUserLogin>(config);
   }
+
+  async sendReport(title: string, email: string, description: string): Promise<IUserLogin> {
+    const config: AxiosRequestConfig = {
+      method: 'POST',
+      url: '/reports',
+      data: {
+        data: {
+          title,
+          email,
+          description,
+        },
+      },
+    };
+
+    return this.makeRequest<IUserLogin>(config);
+  }
 }

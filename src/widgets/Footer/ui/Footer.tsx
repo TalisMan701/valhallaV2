@@ -17,11 +17,13 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/modal';
-import {FormControl, FormLabel, Input, Textarea} from '@chakra-ui/react';
+import {FormControl, FormLabel, Input, Spinner, Textarea} from '@chakra-ui/react';
 import {useWindowWidth} from '~shared/hooks/useWindowWidth';
 import {isEmailValid} from '~shared/utils/isEmailValid';
 import {useStore} from 'effector-react';
 import {storeUser} from '~shared/store/User';
+import {client} from '~shared/api/Client';
+import {useToast} from '@chakra-ui/toast';
 export const Footer = () => {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [email, setEmail] = useState<string>('');
@@ -32,6 +34,9 @@ export const Footer = () => {
   const [invalidText, setInvalidText] = useState<boolean>(false);
   const {isPhone} = useWindowWidth();
   const store = useStore(storeUser);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const toast = useToast();
 
   const resetState = () => {
     setEmail('');
@@ -78,7 +83,38 @@ export const Footer = () => {
     }
   };
 
-  const disabledBtn = !email || !title || !text || invalidEmail || invalidTitle || invalidText;
+  const sendReport = () => {
+    setIsLoading(true);
+    client.user
+      .sendReport(title, email, text)
+      .then((response) => {
+        toast({
+          title: 'Обратная связь',
+          description: 'Успешно отправлено!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        resetState();
+        console.log(response);
+      })
+      .catch((error) => {
+        toast({
+          title: 'Обратная связь',
+          description: 'Не отправлено, попробуйте позже!',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const disabledBtn =
+    !email || !title || !text || invalidEmail || invalidTitle || invalidText || isLoading;
 
   return (
     <>
@@ -143,7 +179,19 @@ export const Footer = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button disabled={disabledBtn}>Отправить</Button>
+            <Button disabled={disabledBtn} onClick={sendReport}>
+              {isLoading ? (
+                <Spinner
+                  thickness='4px'
+                  speed='0.65s'
+                  emptyColor='gray.200'
+                  color='blue.500'
+                  size='sm'
+                />
+              ) : (
+                <span>Отправить</span>
+              )}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -1,18 +1,25 @@
 import {Base} from '~shared/api/Base';
 import {AxiosRequestConfig} from 'axios';
 import {IReview} from '~shared/types/IReview';
+import {IStrapiResponseWrapper} from '~shared/types/IStrapiResponseWrapper';
 
 export class Reviews extends Base {
   constructor(baseUrl: string, apiKey?: string) {
     super(baseUrl, apiKey);
   }
 
-  async getReviewsByServiceName(serviceName: string): Promise<{records: IReview[]}> {
+  async sendReview(
+    content: string,
+    grade: number,
+    userId: number,
+    placeId: number,
+  ): Promise<IStrapiResponseWrapper<IReview>> {
     const config: AxiosRequestConfig = {
-      method: 'GET',
-      url: `/Reviews?fields%5B%5D=assigneeName&fields%5B%5D=assigneeIcon&fields%5B%5D=content&filterByFormula=(%7BserviceName%7D+%3D+'${serviceName}')`,
+      method: 'POST',
+      url: '/reviews',
+      data: {data: {content, grade, user: `${userId}`, place: `${placeId}`}},
     };
 
-    return this.makeRequest<{records: IReview[]}>(config);
+    return this.makeRequest<IStrapiResponseWrapper<IReview>>(config);
   }
 }

@@ -12,7 +12,8 @@ const initialState: Store = {
 };
 
 export const setUser = createEvent<IUserSimple | null>();
-export const setUserSimple = createEvent<IUserSimple>();
+export const setUserSimple = createEvent<IUserSimple | null>();
+export const logout = createEvent();
 
 export const storeUser = createStore<Store>(initialState)
   .on(setUser, (state, user) => ({
@@ -24,4 +25,5 @@ export const storeUser = createStore<Store>(initialState)
     ...state,
     user,
     isAuth: true,
-  }));
+  }))
+  .on(logout, (state) => ({...initialState}));

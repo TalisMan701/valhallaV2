@@ -92,6 +92,10 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 
   return (
     <html lang='en'>
+      <head>
+        <link href='favicon.ico' rel='icon' />
+        <title>RSC</title>
+      </head>
       <body className={GTEestiProDisplay.className}>
         <Providers font={GTEestiProDisplay}>
           <div className='global-container'>

@@ -7,6 +7,8 @@ import {PageWrapper} from '~app/page-wrapper';
 import {PostSection} from '~widgets/PostSection';
 import {IPost} from '~shared/types/IPost';
 import {client} from '~shared/api/Client';
+import {Head} from 'next/document';
+import {Metadata} from 'next';
 
 interface GameProps {
   params: {id: string};
@@ -21,6 +23,18 @@ async function _getPostById(id: string): Promise<IPost | null> {
   }
 }
 
+export async function generateMetadata({params}: GameProps): Promise<Metadata> {
+  const post = await _getPostById(params.id);
+  if (post?.attributes) {
+    return {
+      title: 'RSC - ' + post?.attributes.title,
+    };
+  }
+  return {
+    title: 'RSC',
+  };
+}
+
 export default async function PostPage({params}: GameProps) {
   const post = await _getPostById(params.id);
 
@@ -32,9 +46,11 @@ export default async function PostPage({params}: GameProps) {
   ];
 
   return (
-    <PageWrapper>
-      <BreadcrumbsSection items={breadcrumbsItems} />
-      <PostSection post={post} />
-    </PageWrapper>
+    <>
+      <PageWrapper>
+        <BreadcrumbsSection items={breadcrumbsItems} />
+        <PostSection post={post} />
+      </PageWrapper>
+    </>
   );
 }
