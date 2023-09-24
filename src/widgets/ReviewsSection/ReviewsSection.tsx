@@ -128,6 +128,7 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
                     username={review.attributes.user.data?.attributes.username ?? ''}
                     text={review.attributes.content}
                     avatarURL={review.attributes.user.data?.attributes.icon ?? ''}
+                    grade={review.attributes.grade}
                   />
                 ))}
               </div>

@@ -3,4 +3,5 @@ export interface ReviewProps {
   username: string;
   text: string;
   avatarURL?: string;
+  grade: number;
 }
