@@ -22,7 +22,6 @@ export class Base {
           _config.headers.Authorization = `Bearer ${token}`;
         }
       }
-      console.log(typeof localStorage);
 
       const response: AxiosResponse<T> = await this.apiWithAuth.request(_config);
       return response.data;

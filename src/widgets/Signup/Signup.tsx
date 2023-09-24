@@ -5,7 +5,7 @@ import {SignupProps} from './Signup.types';
 import {InputText} from '~shared/ui/InputText/InputText';
 import {Password} from '~shared/ui/Password/Password';
 import {Button} from '~shared/ui/Button/Button';
-import {Box, Icon, Text} from '@chakra-ui/react';
+import {Box, Icon, Spinner, Text} from '@chakra-ui/react';
 import {SiVk} from 'react-icons/si';
 import Link from 'next/link';
 import {isEmailValid} from '~shared/utils/isEmailValid';
@@ -16,6 +16,7 @@ import {useToast} from '@chakra-ui/toast';
 import {client} from '~shared/api/Client';
 
 export const Signup: FC<SignupProps> = ({className}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -89,6 +90,7 @@ export const Signup: FC<SignupProps> = ({className}) => {
       setInvalidEqualPasswords(true);
       return;
     }
+    setIsLoading(true);
     client.user
       .signup(email, login, password)
       .then((response) => {
@@ -112,6 +114,9 @@ export const Signup: FC<SignupProps> = ({className}) => {
           isClosable: true,
         });
         setError('Ошибка сервера, попробуйте позже!');
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -123,7 +128,8 @@ export const Signup: FC<SignupProps> = ({className}) => {
     invalidEmail ||
     invalidLogin ||
     invalidPassword ||
-    invalidConfirmedPassword;
+    invalidConfirmedPassword ||
+    isLoading;
 
   return (
     <div className={classes.wrapper}>
@@ -162,7 +168,17 @@ export const Signup: FC<SignupProps> = ({className}) => {
           inputId={'confirmedPassword'}
         />
         <Button disabled={disabledBtn} className={classes.btn} onClick={onClick}>
-          Зарегистрироваться
+          {isLoading ? (
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='sm'
+            />
+          ) : (
+            <span>Зарегистрироваться</span>
+          )}
         </Button>
         {(error || invalidEqualPasswords) && (
           <p className={classes.errorText}>

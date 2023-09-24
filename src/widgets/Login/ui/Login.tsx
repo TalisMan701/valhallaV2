@@ -7,7 +7,7 @@ import {Checkbox} from '~shared/ui/Checkbox/Checkbox';
 import {InputText} from '~shared/ui/InputText/InputText';
 import {redirect, useRouter} from 'next/navigation';
 import {signIn} from 'next-auth/react';
-import {Box, Icon, Text} from '@chakra-ui/react';
+import {Box, Icon, Spinner, Text} from '@chakra-ui/react';
 import {SiVk} from 'react-icons/si';
 import Link from 'next/link';
 import {useToast} from '@chakra-ui/toast';
@@ -16,6 +16,7 @@ import {setUser, storeUser} from '~shared/store/User';
 import {client} from '~shared/api/Client';
 
 export const Login = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [checkboxValue, setCheckboxValue] = useState<boolean>(false);
@@ -44,6 +45,7 @@ export const Login = () => {
   };
 
   const onClick = () => {
+    setIsLoading(true);
     client.user
       .login(login, password)
       .then((response) => {
@@ -68,6 +70,9 @@ export const Login = () => {
         });
         console.log(error);
         setError('Неверный логин или пароль');
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -94,8 +99,22 @@ export const Login = () => {
           onChange={(e) => setCheckboxValue((prev) => !prev)}
           label={<span>Запомнить меня</span>}
         />*/}
-        <Button disabled={!!error || !password || !login} className={classes.btn} onClick={onClick}>
-          Войти
+        <Button
+          disabled={!!error || !password || !login || isLoading}
+          className={classes.btn}
+          onClick={onClick}
+        >
+          {isLoading ? (
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='sm'
+            />
+          ) : (
+            <span>Войти</span>
+          )}
         </Button>
         {error && <p className={classes.errorText}>{error}</p>}
         <Text className={classes.or}>или</Text>
