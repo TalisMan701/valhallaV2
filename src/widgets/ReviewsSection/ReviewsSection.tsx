@@ -41,6 +41,7 @@ export const ReviewsSection: FC<ReviewsSectionProps> = ({className, reviews, pla
   const resetState = () => {
     setText('');
     setGrade(0);
+    setGradeHover(0);
   };
 
   useEffect(() => {

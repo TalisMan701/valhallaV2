@@ -93,7 +93,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang='en'>
       <head>
-        <link href='favicon.ico' rel='icon' />
+        <link href='/favicon.ico' rel='icon' sizes='any' />
         <title>RSC</title>
       </head>
       <body className={GTEestiProDisplay.className}>
