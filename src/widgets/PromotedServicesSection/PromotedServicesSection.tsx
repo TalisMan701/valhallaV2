@@ -20,11 +20,6 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
   const [linkToImg, setLinkToImg] = useState<string>('');
   const maxNumber = 69;
 
-  useEffect(() => {
-    client.games.getGames().then((response) => console.log(response));
-    client.services.getServicesByGameId(1).then((response) => console.log(response));
-  }, []);
-
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
     console.log(imageList, addUpdateIndex);
