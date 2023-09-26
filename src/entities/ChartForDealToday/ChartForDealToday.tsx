@@ -60,8 +60,9 @@ export const ChartForDealToday: FC<ChartForDealTodayProps> = ({className}) => {
           let indexNextStat = index + 1;
           if (indexNextStat <= selectedService.attributes.stats!.data.length - 1) {
             while (
+              indexNextStat <= selectedService.attributes.stats!.data.length - 1 &&
               selectedService.attributes.stats!.data[indexNextStat].attributes.count_transaction ===
-              '0'
+                '0'
             ) {
               indexNextStat += 1;
             }
