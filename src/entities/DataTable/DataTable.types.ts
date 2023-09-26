@@ -5,3 +5,10 @@ export interface DataTableProps<Data extends object> {
   data: Data[];
   columns: ColumnDef<Data, any>[];
 }
+
+export interface UnitConversion {
+  serviceId: number;
+  service: string;
+  price: string;
+  reviews: string;
+}

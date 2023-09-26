@@ -7,7 +7,11 @@ type Store = {
 
 export const setSelectedGame = createEvent<IGame | null>();
 
-export const storeSelectedGame = createStore<Store>({selectedGame: null}).on(
+const initialState: Store = {
+  selectedGame: null,
+};
+
+export const storeSelectedGame = createStore<Store>(initialState).on(
   setSelectedGame,
   (state, selectedGame) => ({...state, selectedGame}),
 );

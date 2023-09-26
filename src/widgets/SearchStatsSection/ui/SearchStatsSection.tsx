@@ -1,5 +1,5 @@
 'use client';
-import React, {FC, useMemo, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import classes from './SearchStatsSection.module.scss';
 import {CardStats} from '~entities/CardStats';
 import {Container} from '~shared/ui/Container/Container';
@@ -11,6 +11,7 @@ import cx from 'classnames';
 import {storeSelectedGame, setSelectedGame} from '~shared/store/Catalog';
 import {useStore} from 'effector-react';
 import {IGame} from '~shared/types/IGame';
+import {setSelectedService, storeSelectedService} from '~shared/store/SelectedService';
 
 interface IOption {
   value: IGame;
@@ -18,11 +19,19 @@ interface IOption {
 }
 
 export const SearchStatsSection: FC<SearchStatsSectionProps> = ({className, games}) => {
-  const store = useStore(storeSelectedGame);
+  const {selectedGame} = useStore(storeSelectedGame);
+  const {selectedService, isLoading: isLoadingGetSelectedService} = useStore(storeSelectedService);
 
   const options: IOption[] = useMemo(() => {
     return games.map((game) => ({value: game, label: game.attributes.name}));
   }, [games]);
+
+  useEffect(() => {
+    return () => {
+      setSelectedService(null);
+      setSelectedGame(null);
+    };
+  }, []);
 
   return (
     <section className={cx(classes.section, className)}>
@@ -35,7 +44,10 @@ export const SearchStatsSection: FC<SearchStatsSectionProps> = ({className, game
             <Select
               className={classes.searchInput}
               placeholder={'Поиск'}
-              onChange={(option) => setSelectedGame(option?.value ?? null)}
+              onChange={(option) => {
+                setSelectedGame(option?.value ?? null);
+                setSelectedService(null);
+              }}
               closeMenuOnSelect={false}
               options={options}
               isClearable
@@ -43,8 +55,7 @@ export const SearchStatsSection: FC<SearchStatsSectionProps> = ({className, game
             />
           </CardBody>
         </Card>
-
-        <CardStats />
+        {selectedGame && (selectedService || isLoadingGetSelectedService) && <CardStats />}
       </Container>
     </section>
   );

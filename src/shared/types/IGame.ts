@@ -1,3 +1,5 @@
+import {IService} from '~shared/types/IService';
+
 export interface IGame {
   id: number;
   attributes: IAttributes;
@@ -10,4 +12,5 @@ interface IAttributes {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  places?: {data: IService[]};
 }

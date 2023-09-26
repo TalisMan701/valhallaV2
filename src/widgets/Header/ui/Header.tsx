@@ -33,7 +33,11 @@ export const Header = () => {
     <header className={classes.header}>
       <Container className={classes.container}>
         <div className={classes.row}>
-          <Link href={'/'} className={classes.logoWrapperLink}>
+          <Link
+            href={'/'}
+            className={classes.logoWrapperLink}
+            onClick={() => setShowMenuMobile(false)}
+          >
             <Logo width={100} height={40} fill={'#FFF'} />
           </Link>
           <nav className={cx(classes.nav, showMenuMobile && classes.isOpen)}>
@@ -73,7 +77,7 @@ export const Header = () => {
           <>
             {!isDesktop ? (
               <div className={classes.burgerWrapper}>
-                <Button isLink href={'/signin'}>
+                <Button isLink href={'/signin'} onClick={() => setShowMenuMobile(false)}>
                   Войти
                 </Button>
                 <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>
@@ -90,7 +94,7 @@ export const Header = () => {
           <>
             {!isDesktop ? (
               <div className={classes.burgerWrapper}>
-                <Button isIcon isLink href={'/cabinet'}>
+                <Button isIcon isLink href={'/cabinet'} onClick={() => setShowMenuMobile(false)}>
                   <Avatar size='md' name={store.user.username} src={store.user?.icon ?? ''} />
                 </Button>
                 <Button className={classes.burgerBtn} isIcon onClick={changeShowMenuMobile}>

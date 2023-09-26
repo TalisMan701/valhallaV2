@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import classes from './DataTable.module.scss';
-import {DataTableProps} from './DataTable.types';
+import {DataTableProps, UnitConversion} from './DataTable.types';
 import {Table, Thead, Tbody, Tr, Th, Td, chakra} from '@chakra-ui/react';
 import {TriangleDownIcon, TriangleUpIcon} from '@chakra-ui/icons';
 import {
@@ -12,6 +12,13 @@ import {
 } from '@tanstack/react-table';
 import {useWindowWidth} from '~shared/hooks/useWindowWidth';
 import cx from 'classnames';
+import {
+  setIsLoadingGetSelectedService,
+  setSelectedService,
+  storeSelectedService,
+} from '~shared/store/SelectedService';
+import {client} from '~shared/api/Client';
+import {useStore} from 'effector-react';
 
 export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -25,6 +32,23 @@ export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}
       sorting,
     },
   });
+
+  const {selectedService} = useStore(storeSelectedService);
+
+  const handlerClick = (data: UnitConversion) => {
+    setIsLoadingGetSelectedService(true);
+    client.services
+      .getStatsForService(data.serviceId)
+      .then((response) => {
+        setSelectedService(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoadingGetSelectedService(false);
+      });
+  };
 
   const {isPhone} = useWindowWidth();
 
@@ -64,17 +88,35 @@ export const DataTable: FC<DataTableProps<object>> = ({className, data, columns}
         {table.getRowModel().rows.map((row) => (
           <Tr
             key={row.id}
-            onClick={() => console.log(row.original)}
-            className={cx(classes.row, false && classes['row--isActive'])}
+            onClick={() => handlerClick(row.original as UnitConversion)}
+            className={cx(
+              classes.row,
+              selectedService?.id === (row.original as UnitConversion).serviceId &&
+                classes['row--isActive'],
+            )}
           >
             {row.getVisibleCells().map((cell) => {
               // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
               const meta: any = cell.column.columnDef.meta;
-              return (
-                <Td key={cell.id} isNumeric={meta?.isNumeric}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Td>
-              );
+              if (cell.id.includes('reviews')) {
+                const values = (cell.getValue() as string).split('/');
+                const negativeReviewCount = values[0];
+                const positiveReviewCount = values[1];
+                return (
+                  <Td key={cell.id} isNumeric={meta?.isNumeric}>
+                    <div>
+                      <span style={{color: '#c71616'}}>{negativeReviewCount}</span>/
+                      <span style={{color: '#2dcb2d'}}>{positiveReviewCount}</span>
+                    </div>
+                  </Td>
+                );
+              } else {
+                return (
+                  <Td key={cell.id} isNumeric={meta?.isNumeric}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                );
+              }
             })}
           </Tr>
         ))}

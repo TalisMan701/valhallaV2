@@ -21,6 +21,7 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
 
   useEffect(() => {
     client.games.getGames().then((response) => console.log(response));
+    client.services.getServicesByGameId(1).then((response) => console.log(response));
   }, []);
 
   const onChange = (imageList, addUpdateIndex) => {
