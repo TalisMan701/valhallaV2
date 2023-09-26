@@ -17,6 +17,7 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
 }) => {
   const [images, setImages] = React.useState([]);
   const [image, setImage] = useState<any>();
+  const [linkToImg, setLinkToImg] = useState<string>('');
   const maxNumber = 69;
 
   useEffect(() => {
@@ -51,6 +52,7 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
           data = response.data['secure_url'];
         },
       );
+      setLinkToImg(data);
       return data;
     }
   };
@@ -64,7 +66,7 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
             <CardService key={`game_${service.id}`} service={service} />
           ))}
         </div>
-        {/* <div>
+        <div>
           <ImageUploading
             multiple
             value={images}
@@ -105,7 +107,8 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
             )}
           </ImageUploading>
           <Button onClick={() => profileUpload()}>Upload</Button>
-        </div>*/}
+          {linkToImg && <span>{linkToImg}</span>}
+        </div>
       </Container>
     </section>
   );
