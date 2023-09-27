@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   title: 'RSC - блог',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function Blog() {
   const posts = await _getPosts();
   return (

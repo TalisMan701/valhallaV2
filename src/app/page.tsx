@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   title: 'RSC - главная',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const services = await _getPromotedServices();
   return (
