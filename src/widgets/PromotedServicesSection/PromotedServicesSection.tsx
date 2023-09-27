@@ -15,42 +15,6 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
   className,
   services,
 }) => {
-  const [images, setImages] = React.useState([]);
-  const [image, setImage] = useState<any>();
-  const [linkToImg, setLinkToImg] = useState<string>('');
-  const maxNumber = 69;
-
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList);
-  };
-
-  const handleImg = (e) => {
-    if (images[0]) {
-      setImage({
-        src: new URL.createObjectURL(images[0]),
-        alt: images[0].name,
-      });
-    }
-  };
-
-  const profileUpload = async () => {
-    if (images[0]) {
-      const formData = new FormData();
-      console.log(images[0]);
-      formData.append('file', images[0]['data_url']);
-      formData.append('upload_preset', 'ew37mijt');
-      let data = '';
-      await Axios.post('https://api.cloudinary.com/v1_1/dw8qxruyw/image/upload', formData).then(
-        (response) => {
-          data = response.data['secure_url'];
-        },
-      );
-      setLinkToImg(data);
-      return data;
-    }
-  };
 
   return (
     <section className={cx(classes.section, className)}>
@@ -60,49 +24,6 @@ export const PromotedServicesSection: FC<PromotedServicesSectionProps> = ({
           {services.map((service) => (
             <CardService key={`game_${service.id}`} service={service} />
           ))}
-        </div>
-        <div>
-          <ImageUploading
-            multiple
-            value={images}
-            onChange={onChange}
-            maxNumber={maxNumber}
-            dataURLKey='data_url'
-          >
-            {({
-              imageList,
-              onImageUpload,
-              onImageRemoveAll,
-              onImageUpdate,
-              onImageRemove,
-              isDragging,
-              dragProps,
-            }) => (
-              // write your building UI
-              <div className='upload__image-wrapper'>
-                <button
-                  style={isDragging ? {color: 'red'} : undefined}
-                  onClick={onImageUpload}
-                  {...dragProps}
-                >
-                  Click or Drop here
-                </button>
-                &nbsp;
-                <button onClick={onImageRemoveAll}>Remove all images</button>
-                {imageList.map((image, index) => (
-                  <div key={index} className='image-item'>
-                    <img src={image['data_url']} alt='' width='100' />
-                    <div className='image-item__btn-wrapper'>
-                      <button onClick={() => onImageUpdate(index)}>Update</button>
-                      <button onClick={() => onImageRemove(index)}>Remove</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </ImageUploading>
-          <Button onClick={() => profileUpload()}>Upload</Button>
-          {linkToImg && <span>{linkToImg}</span>}
         </div>
       </Container>
     </section>
