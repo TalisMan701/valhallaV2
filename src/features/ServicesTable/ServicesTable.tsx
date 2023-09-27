@@ -89,6 +89,7 @@ export const ServicesTable: FC<ServicesTableProps> = ({className}) => {
               (amountCurrency) => amountCurrency.attributes.game.data.id === selectedGame.id,
             );
             const amount = amountCurrencies.length ? amountCurrencies[0].attributes.amount : 0;
+            const amountCost = amountCurrencies.length ? amountCurrencies[0].attributes.amountCost : 0;
             place.attributes.reviews.data.forEach((review) => {
               if (review.attributes.grade >= 3) {
                 positiveReviewCount++;
@@ -99,7 +100,7 @@ export const ServicesTable: FC<ServicesTableProps> = ({className}) => {
             tempServices.push({
               serviceId: place.id,
               service: name,
-              price: `${amount}/${currency}`,
+              price: `${amountCost}р/${amount} ${currency}`,
               reviews: `${negativeReviewCount}/${positiveReviewCount}`,
             });
           });
